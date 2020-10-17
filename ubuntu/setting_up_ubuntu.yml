@@ -1,36 +1,58 @@
 #Playbook for setting up fresh ubuntu instances
 ---
 - name: unbuntu setup playbook
-  hosts: pinodes
+  hosts: pimasters
   tasks:
     #importing settings with username, passwords, etc.
     - name: importing settings
       include_tasks: ubuntu_vars.yml
 
-    #creating new user
+    - name: Ensure group "docker" exists
+      group:
+        name: docker
+        state: present
+      become: yes
+  
     - name: create {{ ssh_user }}
       user:
         name: "{{ ssh_user }}"
         password: "{{ ssh_password }}"
         groups: sudo, docker
         state: present
+      become: yes
 
-    #log out
+    
+    - name: switching ssh connection to {{ ssh_user }}
+      set_fact:
+        ansible_user: "{{ ssh_user}}"
+        ansible_pass: "{{ ssh_password }}"
+        ansible_become_pass: "{{ ssh_password }}"
+
+
+    # - name: Reset ssh connection to allow user changes to affect 'current login user'
+    #   meta: reset_connection
+
+    - debug:
+        var: ssh_user
+    - debug:
+        var: ansible_user
+    - debug:
+        var: ansible_become_pass
+
+    - name: set hostname to {{ inventory_hostname }}
+      hostname:
+        name: "{{ inventory_hostname }}"
+        use: systemd
+      become: yes
 
 
     # #copy ssh-key to clients https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html
-    # - name: Register SSH-keys for {{ ssh_user}}
-    #   ansible.posix.authorized_key:
-    #     user: "{{ ssh_user }}"
-    #     state: present
-    #     key: "{{ lookup('file', lookup('env','HOME') + ssh_key_path) }}"
-    #     exclusive: True
-
-    #set hostname not working :-(
-    # - name: set hostname to {{ inventory_hostname }}
-    #   hostname:
-    #     name: "{{ inventory_hostname }}"
-    #     use: systemd
+    - name: Register SSH-keys for {{ ssh_user}}
+      ansible.posix.authorized_key:
+        user: "{{ ssh_user }}"
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + ssh_key_path) }}"
+        exclusive: True
 
     #enable cgroup?
 
