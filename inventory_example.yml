@@ -1,0 +1,18 @@
+---
+
+picluster:
+  children:
+    pimasters:
+    pinodes:
+
+pimasters:
+  hosts:
+    pimaster:
+      ansible_host: 127.0.0.1
+
+pinodes:
+  hosts:
+    pinode1:
+      ansible_host: 127.0.0.2
+    pinode2:
+      ansible_host: 127.0.0.3

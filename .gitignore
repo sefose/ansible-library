@@ -1,0 +1,9 @@
+#personal inventory
+inventory.yml
+
+#settings
+*vars.yml
+
+
+#system files
+.DS_Store

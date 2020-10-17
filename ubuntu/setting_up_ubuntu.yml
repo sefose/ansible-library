@@ -1,0 +1,36 @@
+#Playbook for setting up fresh ubuntu instances
+---
+- name: unbuntu setup playbook
+  hosts: pinodes
+  tasks:
+    #importing settings with username, passwords, etc.
+    - name: importing settings
+      include_tasks: ubuntu_vars.yml
+
+    #creating new user
+    - name: create {{ ssh_user }}
+      user:
+        name: "{{ ssh_user }}"
+        password: "{{ ssh_password }}"
+        groups: sudo, docker
+        state: present
+
+    #log out
+
+
+    # #copy ssh-key to clients https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html
+    # - name: Register SSH-keys for {{ ssh_user}}
+    #   ansible.posix.authorized_key:
+    #     user: "{{ ssh_user }}"
+    #     state: present
+    #     key: "{{ lookup('file', lookup('env','HOME') + ssh_key_path) }}"
+    #     exclusive: True
+
+    #set hostname not working :-(
+    # - name: set hostname to {{ inventory_hostname }}
+    #   hostname:
+    #     name: "{{ inventory_hostname }}"
+    #     use: systemd
+
+    #enable cgroup?
+

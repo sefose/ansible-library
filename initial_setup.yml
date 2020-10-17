@@ -1,0 +1,16 @@
+#Playbook for installing plugins used in this library
+- name: initial setup playbook
+  hosts: localhost
+  tasks:
+    #installing ansible.posix for ansible.posix.authorized_key
+    - name: installing ansible.posix
+      command: ansible-galaxy collection install ansible.posix
+    
+    #installing sshpass to connect with username and password
+#    - name: installing sshpass
+#      command: "{{ item }}"
+#      with_items:
+#      - curl -O -L curl -O -L  https://sourceforge.net/projects/sshpass/files/sshpass/1.06/sshpass-1.06.tar.gz && tar xvzf sshpass-1.06.tar.gz
+#      - cd sshpass-1.06
+#      - ./configure
+#      - sudo make install
