@@ -1,0 +1,11 @@
+---
+- name: docker setup playbook
+  hosts: pinodes
+  tasks:
+
+- name: include ubuntu setup
+  import_playbook: ./ubuntu/setting_up_ubuntu_with_ubuntu_user.yml
+
+- name: include docker install playbook
+  import_playbook: ./docker/setting_up_docker.yml
+

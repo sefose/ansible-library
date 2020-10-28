@@ -7,6 +7,9 @@
     - name: importing settings
       include_tasks: ubuntu_vars.yml
 
+    - debug:
+        var: ansible_become_pass
+
     - name: Ensure group "docker" exists
       group:
         name: docker
@@ -17,7 +20,7 @@
       user:
         name: "{{ ssh_user }}"
         password: "{{ ssh_password }}"
-        groups: sudo, docker
+        groups: sudo, adm, docker
         state: present
       become: yes
 
@@ -26,11 +29,12 @@
       set_fact:
         ansible_user: "{{ ssh_user}}"
         ansible_pass: "{{ ssh_password }}"
+        ansible_become: True
         ansible_become_pass: "{{ ssh_password }}"
 
 
-    # - name: Reset ssh connection to allow user changes to affect 'current login user'
-    #   meta: reset_connection
+    - name: Reset ssh connection to allow user changes to affect 'current login user'
+      meta: reset_connection
 
     - debug:
         var: ssh_user

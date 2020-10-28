@@ -1,0 +1,27 @@
+#Playbook for setting up fresh ubuntu instances
+#start with flags "-u ubuntu -k" and enter password
+---
+- name: unbuntu setup playbook
+  hosts: "{{ ansible_play_hosts }}"
+  gather_facts: no
+  tasks:
+    - name: importing settings
+      include_tasks: ubuntu_vars.yml
+
+    - name: set hostname to {{ inventory_hostname }}
+      hostname:
+        name: "{{ inventory_hostname }}"
+        use: systemd
+      become: yes
+
+
+    # #copy ssh-key to clients https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html
+    - name: Register SSH-keys for ubuntu
+      ansible.posix.authorized_key:
+        user: "ubuntu"
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + ssh_key_path) }}"
+        exclusive: True
+
+    #enable cgroup?
+
