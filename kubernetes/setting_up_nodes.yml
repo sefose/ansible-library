@@ -1,0 +1,16 @@
+---
+- name: kubernetes setup nodes playbook
+  hosts: pinodes
+  tasks:
+
+  - name: Copy the join command to server location
+    copy: src=join-command dest=/tmp/join-command.sh mode=0777
+
+  - name: Reset Kubernetes component
+    shell: "kubeadm reset --force"
+    ignore_errors: True
+    become: yes
+    
+  - name: Join the node to cluster
+    command: sh /tmp/join-command.sh
+    become: yes

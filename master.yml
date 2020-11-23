@@ -9,3 +9,11 @@
 - name: include docker install playbook
   import_playbook: ./docker/setting_up_docker.yml
 
+- name: include kubernetes install playbook
+  import_playbook: ./kubernetes/setting_up_kubernetes.yml
+
+- name: include kubernetes masters playbook
+  import_playbook: ./kubernetes/setting_up_master.yml
+
+- name: include kubernetes nodes playbook
+  import_playbook: ./kubernetes/setting_up_nodes.yml

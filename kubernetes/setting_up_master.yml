@@ -1,0 +1,47 @@
+---
+- name: kubernetes setup masters playbook
+  hosts: pimasters
+  tasks:
+
+  - name: Reset Kubernetes component
+    shell: "kubeadm reset --force"
+    ignore_errors: True
+    become: yes
+
+  - name: Initialize the Kubernetes cluser with kubeadm
+    command: kubeadm init
+    become: yes
+  
+  - name: Create .kube folder
+    file:
+      path: $HOME/.kube
+      state: directory
+ 
+  - name: copy config
+    copy:
+      src: /etc/kubernetes/admin.conf
+      remote_src: yes
+      dest: /home/{{ ansible_user_id }}/.kube/config
+    become: true
+
+  - name: change access
+    file:
+      path: /home/{{ ansible_user_id }}/.kube/config
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+    become: true
+
+  - name: Install calico pod network
+    become: no
+    command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+  - name: Generate join command
+    command: kubeadm token create --print-join-command
+    register: join_command
+
+  - name: Copy join command to local file
+    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+
+  handlers:
+    - name: docker status
+      service: name=docker state=started
