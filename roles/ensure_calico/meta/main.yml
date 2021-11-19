@@ -1,0 +1,3 @@
+---
+dependencies:
+  - role: ensure_kube_install_folder

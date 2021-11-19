@@ -1,0 +1,29 @@
+---
+- name: add key for kubernetes repo
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: add kubernetes repo
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+
+- name: install kubernetes components
+  command: apt install {{ item }}={{ kubernetes_version }} \
+    -o Dpkg::Options::=--force_confold \
+    -o Dpkg::Options::=--force_confdef \
+    -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: hold kubernetes version
+  dpkg_selections:
+    name: "{{ items }}"
+    selection: hold
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl

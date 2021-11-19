@@ -1,0 +1,37 @@
+---
+- name: add key for opensuse kubic repo
+  apt_key:
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ linux_os }}/Release.key
+    state: present
+
+- name: add opensuse kubic repo
+  apt_repository:
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ linux_os }}/ /
+    state: present
+
+- name: add key for opensuse cri-o repo
+  apt_key:
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}/{{ linux_os }}/Release.key
+    state: present
+
+- name: add opensuse kubic repo
+  apt_repository:
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_version }}/{{ linux_os }}/ /
+    state: present
+
+- name: install cri-o
+  command: apt install {{ item }} \
+    -o Dpkg::Options::=--force_confold \
+    -o Dpkg::Options::=--force_confdef \
+    -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+  loop:
+    - cri-o
+    - cri-o-runc
+
+- name: hold cri-o version
+  dpkg_selections:
+    name: "{{ items }}"
+    selection: hold
+  loop:
+    - cri-o
+    - cri-o-runc

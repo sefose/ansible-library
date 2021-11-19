@@ -1,0 +1,3 @@
+---
+- name: untaint k8s master
+  command: kubectl taint nodes --all node-role.kubernetes.io/master-

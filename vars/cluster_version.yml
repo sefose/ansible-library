@@ -1,0 +1,5 @@
+---
+k9s_version: v0.25.3
+cri-o_version: 1.21
+kubernetes_version: 1.22.4-00
+longhorn_version: 1.2.2

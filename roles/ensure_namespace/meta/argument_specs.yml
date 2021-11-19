@@ -1,0 +1,9 @@
+---
+argument_specs:
+  main:
+    short_description: create a namespace in a k8s cluster
+    options:
+      namespace:
+        type: "str"
+        required: true
+        description: "the name for the namespace the role is targeted at"

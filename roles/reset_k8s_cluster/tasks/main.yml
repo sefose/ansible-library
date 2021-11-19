@@ -1,0 +1,11 @@
+---
+- name: reset kubernetes component
+  command: "kubeadm reset --force"
+  ignore_errors: yes
+  become: yes
+
+- name: delete CNI configuration
+  file:
+    path: /etc/cni/net.d
+    state: absent
+  become: yes

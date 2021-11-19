@@ -1,0 +1,12 @@
+---
+- name: create kube-install folder
+  file:
+    path: /home/{{ ansible_user }}/kube-install
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  register: result
+
+- name: set kube_install_files_folder variable
+  set_fact:
+    kube_instll_files_folder: "{{ result.path }}"

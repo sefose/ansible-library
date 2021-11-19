@@ -1,0 +1,14 @@
+---
+- name: ensure k9s archive is present
+  become: no
+  get_url:
+    url: https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_{{ architecture }}.tar.gz
+    dest: /home/{{ ansible_user }}/k9s_{{ k9s_version }}.tar.gz
+
+- name: unpack k9s archive
+  unarchive:
+    remote_src: yes
+    src: /home/{{ ansible_user }}/k9s.tar.gz
+    dest: /usr/local/bin/
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

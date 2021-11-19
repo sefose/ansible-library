@@ -1,0 +1,10 @@
+---
+- name: download calico deployment
+  get_url:
+    url: curl https://docs.projectcalico.org/manifests/calico.yaml -O
+    dest: "{{ kube_install_files_folder }}/calico.yaml"
+
+- name: install calico
+  command: kubectl apply -f calico.yaml
+  args:
+    chdir: "{{ kube_install_files_folder }}" 

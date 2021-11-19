@@ -1,0 +1,39 @@
+---
+- name: ensure longhorn repo
+  command: helm repo add longhorn https://chats.longhorn.io
+
+- name: update helm repos
+  command: helm repo update
+
+- name: ensure longhorn priority class values
+  blockinfile:
+    path: "{{ kube_install_files_folder }}/priorityclass_longhorn.yaml"
+    block: |
+      apiVersion: scheduling.k8s.io/v1
+      kind: PriorityClass
+      metadata:
+        name: longhorn
+      value: 1000000
+      globalDefault: false
+      description: "Makes sure longhorn starts before all other workloads"
+
+- name: ensure longhorn priority class values
+  blockinfile:
+    path: "{{ kube_install_files_folder }}/values_longhorn.yaml"
+    block: |
+      defaultSettings:
+        priorityClass: longhorn
+      persistance:
+        defaultClassReplicaCount: 1
+      longhornManager:
+        priorityClass: longhorn
+      longhornDriver:
+        priorityClass: longhorn
+      longhornUI:
+        priorityClass: longhorn
+
+- name: ensure longhorn priority class
+  command: kubectl apply -n {{ namespace }} -f {{ kube_install_files_folder }}/priorityclass_longhorn.yaml
+
+- name: ensure longhorn in {{ namespace }}
+  command: helm upgrade --install longhorn longhorn/longhorn --version {{ longhorn_version }} -n {{ namespace }} -f {{ kube_install_files_folder }}/values_longhorn.yaml

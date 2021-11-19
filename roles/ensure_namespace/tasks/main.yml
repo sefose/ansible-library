@@ -1,0 +1,3 @@
+---
+- name: ensure namespace {{ namespace }}
+  shell: kubectl create namespace {{ namespace }} --dry-run=client -o yaml | kubectl apply -f -
