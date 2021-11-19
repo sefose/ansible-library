@@ -1,6 +1,6 @@
 ---
 - name: docker setup playbook
-  hosts: pinodes
+  hosts: picluster
   tasks:
 
 - name: include ubuntu setup
