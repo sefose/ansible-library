@@ -1,7 +1,6 @@
 ---
 k9s_version: v0.25.3
 crio_version: 1.22
-crio_linux_version: xUbuntu_21.04
 kubernetes_version: 1.22.4-00
 calico_version: v3.21.0
 longhorn_version: 1.2.2

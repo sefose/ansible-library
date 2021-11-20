@@ -6,5 +6,5 @@
   
   roles:
     - role: '../roles/ensure_helm'
-    - role: '../roles/ensure_flannel'
+    - role: '../roles/ensure_calico'
     - role: '../roles/ensure_longhorn'
