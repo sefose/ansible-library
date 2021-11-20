@@ -1,5 +1,6 @@
 #personal inventory
 inventory.yml
+hosts
 
 #settings
 *vars.yml

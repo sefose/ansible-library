@@ -1,4 +1,19 @@
 ---
+- name: ensure longhorn check script is present
+  become: no
+  get_url:
+    url: https://github.com/longhorn/longhorn/blob/v{{ longhorn_version }}/scripts/environment_check.sh
+    dest: "{{ kube_install_files_folder }}/environment_check.sh"
+    mode: 0700
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: execute longhorn check script
+  become: no
+  shell: ./environment_check.sh
+  args:
+    chdir: "{{ kube_install_files_folder }}" 
+
 - name: ensure longhorn repo
   command: helm repo add longhorn https://chats.longhorn.io
 

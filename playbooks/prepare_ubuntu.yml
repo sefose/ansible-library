@@ -1,0 +1,8 @@
+---
+- name: prepare linux for cluster
+  hosts: '{{ host }}'
+
+  roles:
+    - role: '../roles/ensure_apt_upgrade'
+    - role: '../roles/ensure_inventory_hostname'
+    - role: '../roles/prepare_kubernetes'

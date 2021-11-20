@@ -1,0 +1,14 @@
+[pi_cluster:children]
+pi_masters
+pi_nodes
+
+[pi_cluster:vars]
+architecture=arm64
+ansible_user=ubuntu
+
+[pi_masters]
+hostname_pi_master ansible_ssh_host=1.2.3.4
+
+[pi_nodes]
+hostname_pi_node1 ansible_ssh_host=1.2.3.5
+hostname_pi_node2 ansible_ssh_host=1.2.3.6
