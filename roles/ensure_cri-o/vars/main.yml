@@ -1,2 +1,0 @@
----
-linux_os: "x{{ ansible_distrubution }}_{{ansible_distrubution_version}}"

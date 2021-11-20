@@ -1,0 +1,6 @@
+---
+- name: include prepare unbuntu
+  import_playbook: prepare_ubuntu.yml
+
+- name: include ensure k8s cluster
+  import_playbook: ensure_k8s_cluster.yml

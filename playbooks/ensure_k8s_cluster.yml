@@ -1,0 +1,20 @@
+---
+- name: ensure kubernetes cluster on nodes
+  hosts: '{{ host }}'
+  vars_files:
+    - '../vars/cluster_version.yml'
+  roles:
+    - role: '../roles/reset_k8s_cluster'
+    - role: '../roles/ensure_cri-o'
+    - role: '../roles/ensure_k8s'
+    - role: '../roles/ensure_k9s'
+    - role: '../roles/init_k8s_cluster'
+      when: node_role == "master"
+    - role: '../roles/ensure_k8s_config'
+    - role: '../roles/ensure_untaint_master'
+      when: 
+        - node_role == "master"
+        - untaint_master == "true"
+    - role: '../roles/join_k8s_cluster'
+      when: node_role == "node"
+    

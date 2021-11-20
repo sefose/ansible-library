@@ -8,7 +8,8 @@
 - name: unpack k9s archive
   unarchive:
     remote_src: yes
-    src: /home/{{ ansible_user }}/k9s.tar.gz
+    src: /home/{{ ansible_user }}/k9s_{{ k9s_version }}.tar.gz
     dest: /usr/local/bin/
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
+  become: yes
