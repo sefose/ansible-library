@@ -8,3 +8,5 @@ hosts
 
 #system files
 .DS_Store
+
+join_command

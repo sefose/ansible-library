@@ -9,4 +9,4 @@
 
 - name: set kube_install_files_folder variable
   set_fact:
-    kube_instll_files_folder: "{{ result.path }}"
+    kube_install_files_folder: "{{ result.path }}"

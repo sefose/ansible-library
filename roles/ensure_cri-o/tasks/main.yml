@@ -43,4 +43,5 @@
   systemd:
     name: crio
     state: started
+    enabled: yes
   become: yes

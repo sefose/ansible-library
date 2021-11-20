@@ -4,3 +4,6 @@
 
 - name: include ensure k8s cluster
   import_playbook: ensure_k8s_cluster.yml
+
+- name: include configure k8s cluster
+  import_playbook: configure_k8s_cluster.yml

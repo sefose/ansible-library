@@ -1,0 +1,10 @@
+---
+- name: ensure k8s configuration
+  hosts: '{{ host }}'
+  vars_files:
+    - '../vars/cluster_version.yml'
+  
+  roles:
+    - role: '../roles/ensure_helm'
+    - role: '../roles/ensure_flannel'
+    - role: '../roles/ensure_longhorn'
