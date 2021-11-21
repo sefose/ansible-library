@@ -42,6 +42,6 @@
 - name: start cri-o
   systemd:
     name: crio
-    state: started
+    state: restarted
     enabled: yes
   become: yes
