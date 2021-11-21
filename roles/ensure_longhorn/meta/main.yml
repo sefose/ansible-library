@@ -1,0 +1,5 @@
+---
+dependencies:
+  - role: ensure_apt_packages
+  - role: ensure_kube_install_folder
+  - role: ensure_namespace

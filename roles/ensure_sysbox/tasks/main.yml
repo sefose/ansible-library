@@ -1,0 +1,12 @@
+---
+- name: ensure sysbox
+  command: kubectl label nodes {{ inventory_hostname }} sysbox-install=yes
+
+- name: ensure sysbox deploy rbac
+  command: kubectl apply -f https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/rbac/sysbox-deploy-rbac.yaml
+
+- name: ensure sysbox deploy rbac
+  command: kubectl apply -f https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/daemonset/sysbox-deploy-k8s.yaml
+  
+- name: ensure sysbox deploy rbac
+  command: kubectl apply -f https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/runtime-class/sysbox-runtimeclass.yaml

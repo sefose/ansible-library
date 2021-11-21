@@ -2,7 +2,7 @@
 - name: ensure longhorn check script is present
   become: no
   get_url:
-    url: https://github.com/longhorn/longhorn/blob/v{{ longhorn_version }}/scripts/environment_check.sh
+    url: https://raw.githubusercontent.com/longhorn/longhorn/v{{ longhorn_version }}/scripts/environment_check.sh
     dest: "{{ kube_install_files_folder }}/environment_check.sh"
     mode: 0700
     owner: "{{ ansible_user }}"
@@ -15,7 +15,7 @@
     chdir: "{{ kube_install_files_folder }}" 
 
 - name: ensure longhorn repo
-  command: helm repo add longhorn https://chats.longhorn.io
+  command: helm repo add longhorn https://charts.longhorn.io
 
 - name: update helm repos
   command: helm repo update
@@ -31,6 +31,7 @@
       value: 1000000
       globalDefault: false
       description: "Makes sure longhorn starts before all other workloads"
+    create: yes
 
 - name: ensure longhorn priority class values
   blockinfile:
@@ -46,9 +47,10 @@
         priorityClass: longhorn
       longhornUI:
         priorityClass: longhorn
+    create: yes
 
 - name: ensure longhorn priority class
-  command: kubectl apply -n {{ namespace }} -f {{ kube_install_files_folder }}/priorityclass_longhorn.yaml
+  command: kubectl apply -n {{ namespace_name }} -f {{ kube_install_files_folder }}/priorityclass_longhorn.yaml
 
-- name: ensure longhorn in {{ namespace }}
-  command: helm upgrade --install longhorn longhorn/longhorn --version {{ longhorn_version }} -n {{ namespace }} -f {{ kube_install_files_folder }}/values_longhorn.yaml
+- name: ensure longhorn in namespace {{ namespace_name }}
+  command: helm upgrade --install longhorn longhorn/longhorn --version {{ longhorn_version }} -n {{ namespace_name }} -f {{ kube_install_files_folder }}/values_longhorn.yaml

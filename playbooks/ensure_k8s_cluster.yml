@@ -1,8 +1,7 @@
 ---
 - name: ensure kubernetes cluster on nodes
   hosts: '{{ host }}'
-  vars_files:
-    - '../vars/cluster_version.yml'
+  
   roles:
     - role: '../roles/reset_k8s_cluster'
     - role: '../roles/ensure_cri-o'
