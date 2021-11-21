@@ -14,6 +14,7 @@ crio_version=1.21
 kubernetes_version=1.21.7-00
 calico_version=v3.21.0
 longhorn_version=1.2.2
+nginx_ingress_version=4.0.9
 
 [pi_masters]
 hostname_pi_master ansible_ssh_host=1.2.3.4
