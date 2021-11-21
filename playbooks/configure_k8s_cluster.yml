@@ -6,3 +6,5 @@
     - role: '../roles/ensure_helm'
     - role: '../roles/ensure_calico'
     - role: '../roles/ensure_longhorn'
+      vars:
+        namespace_name: 'longhorn'

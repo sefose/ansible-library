@@ -1,0 +1,7 @@
+---
+- name: ensure apt packages
+  apt:
+    pkg: '{{ apt_packages }}'
+    state: present
+    update_cache: true
+  become: true
