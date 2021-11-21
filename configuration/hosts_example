@@ -7,6 +7,13 @@ architecture=arm64
 ansible_user=ubuntu
 untaint_master=false
 linux_os=xUbuntu_21.04
+ubuntu_distro=focal
+sysbox_version=0.4.1
+k9s_version=v0.25.4
+crio_version=1.21
+kubernetes_version=1.21.7-00
+calico_version=v3.21.0
+longhorn_version=1.2.2
 
 [pi_masters]
 hostname_pi_master ansible_ssh_host=1.2.3.4
