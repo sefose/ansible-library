@@ -10,3 +10,4 @@ hosts
 .DS_Store
 
 join_command
+test.yml
