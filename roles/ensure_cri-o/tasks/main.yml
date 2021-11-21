@@ -1,25 +1,25 @@
 ---
 - name: add key for opensuse kubic repo
   apt_key:
-    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_linux_version }}/Release.key
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ linux_os }}/Release.key
     state: present
   become: yes
 
 - name: add opensuse kubic repo
   apt_repository:
-    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_linux_version }}/ /
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ linux_os }}/ /
     state: present
   become: yes
 
 - name: add key for opensuse cri-o repo
   apt_key:
-    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}/{{ crio_linux_version }}/Release.key
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}/{{ linux_os }}/Release.key
     state: present
   become: yes
 
 - name: add opensuse kubic repo
   apt_repository:
-    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_version }}/{{ crio_linux_version }}/ /
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_version }}/{{ linux_os }}/ /
     state: present
   become: yes
 
