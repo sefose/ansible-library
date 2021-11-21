@@ -1,6 +1,0 @@
----
-- name: ensure calico repo
-  command: helm repo add projectcalico https://docs.projectcalico.org/charts
-
-- name: ensure calico
-  command: helm install calico projectcalico/tigera-operator --version {{ calico_version }}
