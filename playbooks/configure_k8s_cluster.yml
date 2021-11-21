@@ -8,3 +8,6 @@
     - role: '../roles/ensure_longhorn'
       vars:
         namespace_name: 'longhorn'
+    - role: '../roles/ensure_ingress_nginx'
+      vars:
+        namespace_name: nginx-ingress

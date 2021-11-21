@@ -1,0 +1,23 @@
+---
+- name: ensure nginx repo
+  command: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+- name: update helm repos
+  command: helm repo update
+
+- name: ensure ingress_nginx_values.yaml
+  blockinfile:
+    path: "{{ kube_install_files_folder }}/ingress_nginx_values.yaml"
+    block: |
+      controller:
+        watchIngressWithoutClasses: true
+        service:
+          type: ClusterIP
+          externalIPs:
+            - {{ ansible_ssh_host }}
+        admissionWebhook:
+          enabled:false
+    create: yes 
+
+- name: ensure nginx-ingress in namespace {{ namespace_name }}
+  command: helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version {{ nginx_ingress_version }} -n {{ namespace_name }} -f {{ kube_install_files_folder }}/ingress_nginx_values.yaml
