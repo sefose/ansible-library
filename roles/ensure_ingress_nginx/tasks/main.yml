@@ -10,7 +10,7 @@
     path: "{{ kube_install_files_folder }}/ingress_nginx_values.yaml"
     block: |
       controller:
-        watchIngressWithoutClasses: true
+        watchIngressWithoutClass: true
         service:
           type: ClusterIP
           externalIPs:
