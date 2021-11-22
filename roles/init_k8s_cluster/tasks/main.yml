@@ -8,10 +8,9 @@
   command: kubeadm token create --print-join-command
   become: yes
 
-
 - name: copy join commamd to local file
   local_action:
     module: copy
     content: "{{ join_command.stdout_lines[0] }}"
-    dest: "./join_command"
+    dest: "../configuration/join_command"
   become: no

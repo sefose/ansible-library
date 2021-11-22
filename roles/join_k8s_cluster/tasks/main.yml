@@ -1,11 +1,11 @@
 ---
 - name: copy the join command to server location
   copy:
-    src: ./join_command
-    dest: /tmp/join-command.sh
+    src: ../configuration/join_command
+    dest: /tmp/join_command.sh
     mode: 0777
   become: yes
 
 - name: join the node to cluster
-  shell: /tmp/join_commnd.sh
+  shell: /tmp/join_command.sh
   become: yes

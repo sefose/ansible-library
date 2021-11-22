@@ -10,6 +10,7 @@
     - role: '../roles/init_k8s_cluster'
       when: node_role == "master"
     - role: '../roles/ensure_k8s_config'
+      when: node_role == "master"
     - role: '../roles/ensure_untaint_master'
       when: 
         - node_role == "master"
