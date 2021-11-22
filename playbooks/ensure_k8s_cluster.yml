@@ -7,6 +7,7 @@
     - role: '../roles/ensure_cri-o'
     - role: '../roles/ensure_k8s'
     - role: '../roles/ensure_k9s'
+      when: node_role == "master"
     - role: '../roles/init_k8s_cluster'
       when: node_role == "master"
     - role: '../roles/ensure_k8s_config'
