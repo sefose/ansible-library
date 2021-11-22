@@ -4,12 +4,8 @@
   
   roles:
     - role: '../roles/ensure_helm'
-      when: node_role == "master"
     - role: '../roles/ensure_calico'
-      when: node_role == "master"
     - role: '../roles/ensure_longhorn'
       namespace_name: 'longhorn'
-      when: node_role == "master"
     - role: '../roles/ensure_ingress_nginx'
       namespace_name: ingress-nginx
-      when: node_role == "master"

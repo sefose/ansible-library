@@ -7,3 +7,4 @@
 
 - name: include configure k8s cluster
   import_playbook: configure_k8s_cluster.yml
+  when: node_role == "master"
