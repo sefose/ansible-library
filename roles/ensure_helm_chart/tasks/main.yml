@@ -1,0 +1,15 @@
+---
+- name: ensure helm repo {{ helm_repo_name }}
+  command: helm repo add {{ helm_repo_name }} {{ helm_repo_url }}
+
+- name: ensure helm repos updated
+  command: helm repo update
+
+- name: ensure {{ release_name }}_values.yaml
+  blockinfile:
+    path: "{{ kube_install_files_folder }}/{{ release_name }}_values.yaml"
+    block: "{{ custom_values }}"
+    create: yes
+
+- name: ensure {{ release_name }} installation in namespace {{ namespace_name }}
+  command: helm -n {{ namespace_name }} upgrade --install {{ release_name }} {{ helm_repo_name }}/{{ helm_chart_name }} -f {{ kube_install_files_folder }}/{{ release_name }}_values.yaml
