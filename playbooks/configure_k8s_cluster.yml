@@ -9,3 +9,16 @@
       namespace_name: 'longhorn'
     - role: '../roles/ensure_ingress_nginx'
       namespace_name: ingress-nginx
+    - role: '../roles/ensure_helm_chart'
+      helm_repo_name: metrics-server
+      helm_repo_url: https://kubernetes-sigs.github.io/metrics-server/
+      helm_chart_name: metrics-server
+      release_name: metrics-server
+      namespace_name: metrics-server
+      custom_values: |
+        args:
+          - --cert-dir=/tmp
+          - --secure-port=4443
+          - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+          - --kubelet-use-node-status-port
+          - --kubelet-insecure-tls
