@@ -8,7 +8,6 @@ ansible_user=ubuntu
 untaint_master=false
 linux_os=xUbuntu_21.04
 ubuntu_distro=focal
-sysbox_version=0.4.1
 k9s_version=v0.25.4
 crio_version=1.21
 kubernetes_version=1.21.7-00
@@ -23,7 +22,7 @@ hostname_pi_master ansible_ssh_host=1.2.3.4
 node_role=master
 
 [pi_nodes]
-hostname_pi_node1 ansible_ssh_host=1.2.3.5
+hostname_pi_node1 ansible_ssh_host=1.2.3.5 install_sysbox=true
 hostname_pi_node2 ansible_ssh_host=1.2.3.6
 
 [pi_nodes:vars]

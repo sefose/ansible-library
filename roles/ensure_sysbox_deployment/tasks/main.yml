@@ -1,0 +1,44 @@
+---
+
+
+- name: ensure sysbox-install label
+  command: kubectl label nodes {{ hostvars[item]['inventory_hostname'] }} sysbox-install=yes --overwrite
+  with_inventory_hostnames:
+    - "{{ host }}"
+  when: 
+    - hostvars[item]['install_sysbox'] is defined
+    - hostvars[item]['install_sysbox'] == "true"
+  register: label_output
+  ignore_errors: true
+
+- name: ensure sysbox deploy rbac
+  command: kubectl apply -f https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/rbac/sysbox-deploy-rbac.yaml
+  when: label_output['skipped']==false
+
+- name: ensure sysbox deploy k8s
+  command: kubectl apply -f https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/daemonset/sysbox-deploy-k8s.yaml
+  when: label_output['skipped']==false
+
+- name: ensure sysbox runtimeclass
+  command: kubectl apply -f https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/runtime-class/sysbox-runtimeclass.yaml
+  when: label_output['skipped']==false
+
+- name: ensure containers entry in subgid
+  lineinfile:
+    path: /etc/subgid
+    line: containers:296608:1048576
+    search_string: 'containers:'
+  when: 
+    - install_sysbox is defined
+    - install_sysbox == "true"
+  become: yes
+
+- name: ensure containers entry in subuid
+  lineinfile:
+    path: /etc/subuid
+    line: containers:296608:1048576
+    search_string: 'containers:'
+  when: 
+    - install_sysbox is defined
+    - install_sysbox == "true"
+  become: yes

@@ -5,10 +5,13 @@
   roles:
     - role: '../roles/ensure_helm'
     - role: '../roles/ensure_calico'
+    
     - role: '../roles/ensure_longhorn'
       namespace_name: 'longhorn'
+
     - role: '../roles/ensure_ingress_nginx'
       namespace_name: ingress-nginx
+
     - role: '../roles/ensure_helm_chart'
       helm_repo_name: metrics-server
       helm_repo_url: https://kubernetes-sigs.github.io/metrics-server/
