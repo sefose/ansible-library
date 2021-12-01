@@ -1,0 +1,57 @@
+---
+- name: ensure ld_con label
+  command: kubectl label nodes {{ hostvars[item]['inventory_hostname'] }} ld_con=yes --overwrite
+  with_inventory_hostnames:
+    - "{{ host }}"
+  when: 
+    - hostvars[item]['provide_ld_con'] is defined
+    - hostvars[item]['provide_ld_con'] == "true"
+    - kind == "master"
+  register: label_output
+  ignore_errors: true
+
+- name: add the userns annotation to the runtime
+  blockinfile:
+    path: "/etc/crio.conf"
+    block: |
+      [crio.runtime.workloads]
+      allowed_annotations = [
+            "io.containers.trace-syscall",
+            "io.kubernetes.cri-o.userns-mode",
+      ]
+  become: yes
+  when: 
+  - provide_ld_con is defined
+  - provide_ld_con == "true"
+
+- name: ensure UID/GID ranges for containers
+  lineinfile:
+    path: /etc/{{ item }}
+    regexp: '^containers:'
+    line: containers:200000:268435456
+  become: yes
+  with_items:
+    - subuid
+    - subgid
+  when: 
+  - provide_ld_con is defined
+  - provide_ld_con == "true"
+
+- name: ensure fuse-device-plugin yml
+  template:
+    src: ../../configuration/templates/fuse-device-plugin-k8s-1.16.yml
+    dest: "{{ kube_install_files_folder }}/fuse-device-plugin-k8s-1.16.yml"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+  when: 
+  - label_output['skipped']==false
+  - kind == "master"
+
+- name: install fuse-device plugin
+  become_user: "{{ ansible_user_id }}"
+  args:
+    chdir: "{{ kube_install_files_folder }}"
+  command: kubectl apply -f fuse-device-plugin-k8s-1.16.yml
+  when: 
+  - label_output['skipped']==false
+  - kind == "master"
