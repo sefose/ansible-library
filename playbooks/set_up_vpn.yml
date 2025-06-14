@@ -1,0 +1,6 @@
+---
+- name: set up vpn server
+  hosts: '{{ host }}'
+
+  roles:
+    - role: '../roles/ensure_wireguard'

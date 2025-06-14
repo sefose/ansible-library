@@ -11,3 +11,5 @@ hosts
 
 join_command
 test.yml
+
+.vscode
