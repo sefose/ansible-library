@@ -1,0 +1,6 @@
+---
+- name: set up ipv4toipv6 server
+  hosts: '{{ host }}'
+
+  roles:
+    - role: '../roles/ipv4toipv6server'

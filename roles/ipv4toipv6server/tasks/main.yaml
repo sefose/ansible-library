@@ -1,0 +1,10 @@
+---
+- name: Create systemd service file for ipv4toipv6server
+  template:
+    src: socat.service
+    dest: /etc/systemd/system/ipv4toipv6server.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload systemd

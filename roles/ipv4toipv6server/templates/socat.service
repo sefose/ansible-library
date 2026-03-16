@@ -1,0 +1,15 @@
+[Unit]
+Description=Socat VPN forwarder
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+#StandardOutput=syslog
+#StandardError=syslog
+SyslogIdentifier=ipv4toipv6server
+ExecStart=/usr/bin/socat -d -ls UDP-LISTEN:55545,fork,su=nobody UDP6:[{{ v6target }}]:55545
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

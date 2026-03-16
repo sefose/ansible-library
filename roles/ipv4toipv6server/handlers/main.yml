@@ -1,0 +1,6 @@
+---
+  - name: Reload systemd
+    systemd:
+      name: ipv4toipv6server.service
+      daemon_reload: true
+      state: restarted
